@@ -1,0 +1,15 @@
+---
+- name: Execute Cisco IOS command
+  hosts: cisco_switch
+  gather_facts: no  # 不收集远程主机的事实信息
+
+  tasks:
+    - name: Run show version command
+      ios_command:
+        commands:
+          - show version
+      register: result  # 将命令输出保存到变量result中
+
+    - name: Print command output
+      debug:
+        var: result.stdout_lines

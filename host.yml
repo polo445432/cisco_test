@@ -1,0 +1,11 @@
+---
+all:
+  children:
+    switches:
+      hosts:
+        switch1:
+          ansible_host: 9.9.9.1
+        switch2:
+          ansible_host: 10.1.13.1
+        switch3:
+          ansible_host: 10.1.12.2
