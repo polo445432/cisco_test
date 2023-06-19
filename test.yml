@@ -13,17 +13,17 @@
       debug:
         var: result_old.stdout_lines
 
-   - name: 修改主机名
-     ios_config:
-      lines:
-      - hostname {{ hostname }}
-     vars:
-      hostname: "{{ hostvars[inventory_hostname]['hostname'] }}"
-     register: config_result
-     delegate_to: "{{ inventory_hostname }}"
+    - name: 修改主机名
+      ios_config:
+       lines:
+       - hostname {{ hostname }}
+      vars:
+       hostname: "{{ hostvars[inventory_hostname]['hostname'] }}"
+      register: config_result
+      delegate_to: "{{ inventory_hostname }}"
 
-   - name: 显示结果
-     debug:
+    - name: 显示结果
+      debug:
         var: config_result.stdout_lines
 
     
