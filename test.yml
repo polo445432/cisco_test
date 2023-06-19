@@ -1,15 +1,33 @@
 ---
 - name: Execute Cisco IOS command
-  hosts: cisco_switch
-  gather_facts: no  # 不收集远程主机的事实信息
-
+  hosts: all
+  gather_facts: no
+  become: true
   tasks:
-    - name: Run show version command
+    - name: show hostname_before
       ios_command:
-        commands:
-          - show version
-      register: result  # 将命令输出保存到变量result中
+        commands: show running-config | include hostname
+      register: result_old
 
-    - name: Print command output
+    - name: show hostname_before_var
       debug:
-        var: result.stdout_lines
+        var: result_old.stdout_lines
+
+   - name: 修改主机名
+     ios_config:
+      lines:
+      - hostname {{ hostname }}
+     vars:
+      hostname: "{{ hostvars[inventory_hostname]['hostname'] }}"
+     register: config_result
+     delegate_to: "{{ inventory_hostname }}"
+
+   - name: 显示结果
+     debug:
+        var: config_result.stdout_lines
+
+    
+    # - name: store result
+    #   copy:
+    #     content: "{{ result.stdout }}"
+    #     dest: /.ansible/tmp/file.txt
