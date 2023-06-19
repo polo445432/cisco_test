@@ -11,12 +11,12 @@
     - name: show hostname_before_var
       debug:
         var: result_old.stdout_lines
-    - name: 修改主机名
+    - name: config hostname
       ios_config:
-        lines:
-          - hostname {{ hostname }}
+         lines:
+                 - hostname {{ hostname }}
       vars:
-        hostname: "{{ hostvars[inventory_hostname]['hostname'] }}"
+         hostname: "{{ hostvars[inventory_hostname]['hostname'] }}"
       register: config_result
       delegate_to: "{{ inventory_hostname }}"
     - name: 显示结果
